@@ -122,7 +122,7 @@ const uploadAndAnalyzeImage = async (canvas) => {
     canvas.toBlob(blob => {
         formData.append("image", blob, "processed_image.png");
 
-        fetch("http://localhost:5000/analyze", {
+        fetch("https://curve-detection.onrender.com/analyze", {
             method: "POST",
             body: formData,
         })
