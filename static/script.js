@@ -120,7 +120,7 @@ const uploadAndAnalyzeImage = async (canvas) => {
 
     // Convert canvas to Blob and append it
     canvas.toBlob(blob => {
-        formData.append("image", blob, "processed_image.jpg");
+        formData.append("image", blob, "processed_image.png");
 
         fetch("http://localhost:5000/analyze", {
             method: "POST",
@@ -128,12 +128,24 @@ const uploadAndAnalyzeImage = async (canvas) => {
         })
             .then(response => response.json())
             .then(result => {
-                resultOutput.textContent = JSON.stringify(result, null, 2);
+                if (result.image) {
+                    const base64Image = result.image;
+                    downloadImage(base64Image); // Call the function to download the image
+                } else {
+                    console.error("No image returned from the server");
+                }
             })
             .catch(error => {
                 console.error("Error:", error);
             });
     }, "image/jpeg");
+}
+
+function downloadImage(base64Image) {
+    const link = document.createElement("a");
+    link.href = 'data:image/png;base64,' + base64Image;
+    link.download = 'processed_image.png'; // Name of the file to be downloaded
+    link.click();
 }
 
 saveImgBtn.addEventListener("click", async () => {
