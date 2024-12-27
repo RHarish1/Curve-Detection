@@ -1,4 +1,5 @@
 Flask==2.2.2
+werkzeug==2.0.3
 numpy==1.23.3
 opencv-python==4.6.0.66
 Pillow==9.2.0
