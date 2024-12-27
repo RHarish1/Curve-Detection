@@ -4,7 +4,8 @@
 <head>
     <meta charset="utf-8">
     <title>Image Editor</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <!-- Update to use relative path for static assets -->
+    <link rel="stylesheet" href="static/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" />
@@ -42,7 +43,8 @@
                 </div>
             </div>
             <div class="preview-img">
-                <img src="{{ url_for('static', filename='image-placeholder.svg') }}" alt="preview-img" id="preview">
+                <!-- Update to use relative path for static image -->
+                <img src="static/image-placeholder.svg" alt="preview-img" id="preview">
             </div>
             <div class="result">
                 <pre id="result-output"></pre>
@@ -58,7 +60,8 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <!-- Update to use relative path for static JS file -->
+    <script src="static/script.js"></script>
 </body>
 
 </html>
