@@ -4,8 +4,9 @@ import cv2
 import io
 import base64
 from PIL import Image
-
+from flask_cors import CORS
 app = Flask(__name__)
+CORS(app)
 
 # Function to preprocess the image
 def preprocess_image(img):
@@ -107,7 +108,7 @@ def analyze_image():
     # Load image from the request
     if 'image' not in request.files:
         return jsonify({"error": "No file uploaded."}), 400
-
+    
     file = request.files['image'].read()
     image = Image.open(io.BytesIO(file))
     if image.mode == 'RGBA':
@@ -115,8 +116,7 @@ def analyze_image():
     else:
         img = np.array(image)  # Use the image as is (RGB)
     img = img.astype(np.uint8)
-
-    print(img)
+    
     # Preprocess the image and get contours
     contours, processed_img = preprocess_image(img)
 
@@ -169,7 +169,7 @@ def analyze_image():
 
             symmetry_text = f"Rotational: {'Exists' if c_diff < 0.5 else 'Not Exists'}"
             cv2.putText(img, symmetry_text, (cX - 20, cY + 90), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
-
+        
     # Convert the final image with contours and symmetry text to a byte array
     img_byte_arr = io.BytesIO()
     final_img = Image.fromarray(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
