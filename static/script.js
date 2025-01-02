@@ -105,11 +105,6 @@ const saveImage = () => {
     ctx.scale(flipHorizontal, flipVertical);
     ctx.drawImage(previewImg, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height);
 
-    const link = document.createElement("a");
-    link.download = "image.jpg";
-    link.href = canvas.toDataURL();
-    link.click();
-
     return canvas; // Return the canvas for further processing
 }
 
@@ -122,7 +117,7 @@ const uploadAndAnalyzeImage = async (canvas) => {
     canvas.toBlob(blob => {
         formData.append("image", blob, "processed_image.png");
 
-        fetch("https://curve-detection.onrender.com/analyze", {
+        fetch("http://localhost:5000/analyze", {
             method: "POST",
             body: formData,
         })
@@ -138,7 +133,7 @@ const uploadAndAnalyzeImage = async (canvas) => {
             .catch(error => {
                 console.error("Error:", error);
             });
-    }, "image/jpeg");
+    }, "image/png");
 }
 
 function downloadImage(base64Image) {
