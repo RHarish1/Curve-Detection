@@ -1,18 +1,6 @@
 # 🌀 Curvetopia
 
-# 🌀 Curvetopia
-
 ## 🔍 Overview
-
-## 🔍 Overview
-
-**Curvetopia** is an interactive web-based tool for **shape detection** and **symmetry analysis** in images. Users can upload images containing 2D shapes, apply filters and transformations, and generate annotated results that highlight detected shapes and assess their symmetry.
-
-It features a modern **FastAPI backend** for shape analysis and a responsive **JavaScript/HTML frontend** that allows real-time image manipulation before processing.
-
----
-
-## ⚙️ Features
 
 **Curvetopia** is an interactive web-based tool for **shape detection** and **symmetry analysis** in images. Users can upload images containing 2D shapes, apply filters and transformations, and generate annotated results that highlight detected shapes and assess their symmetry.
 
