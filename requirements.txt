@@ -1,6 +1,7 @@
-Flask
+fastapi
+uvicorn[standard]
 numpy
-opencv-python
+opencv-python-headless
 Pillow
-gunicorn
-flask-cors
+python-multipart
+aiofiles

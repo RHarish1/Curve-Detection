@@ -1,109 +1,125 @@
-# Curvetopia
+# 🌀 Curvetopia
 
-## Overview
+## 🔍 Overview
 
-**Curvetopia** is a tool designed to analyze 2D images or polylines, classify shapes, and evaluate their symmetry. The code processes input images or manually defined polylines, identifies geometric shapes such as triangles, squares, rectangles, circles, etc., and computes various symmetry measures (horizontal, vertical, diagonal, and rotational). The output is an image with the detected shapes labeled and a report on the symmetry of each shape.
+**Curvetopia** is an interactive web-based tool for **shape detection** and **symmetry analysis** in images. Users can upload images containing 2D shapes, apply filters and transformations, and generate annotated results that highlight detected shapes and assess their symmetry.
 
-## Features
+It features a modern **FastAPI backend** for shape analysis and a responsive **JavaScript/HTML frontend** that allows real-time image manipulation before processing.
 
-- **Shape Detection**: Identifies and classifies shapes including triangles, squares, rectangles, pentagons, hexagons, heptagons, stars, circles, ellipses, and generic polygons.
-- **Symmetry Calculation**: Calculates and reports on the horizontal, vertical, diagonal, and rotational symmetry of each shape.
-- **Custom Polyline Support**: Allows custom polylines to be analyzed as shapes, providing flexibility beyond standard image inputs.
-- **Visualization**: Outputs an annotated image showing the detected shapes and their symmetry.
+---
 
-## Dependencies
+## ⚙️ Features
 
-The code requires the following Python libraries:
-- OpenCV
-- NumPy
-- Matplotlib
-- Pandas
+- 🧠 **Shape Detection**  
+  Detects common shapes: triangle, square, rectangle, circle, pentagon, hexagon, heptagon, star, and generic polygons.
 
-You can install these dependencies using pip:
+- 🔁 **Symmetry Analysis**  
+  Automatically computes horizontal, vertical, diagonal, and rotational symmetry of each detected shape.
+
+- 🖼️ **Interactive Image Editor**  
+  Modify brightness, saturation, invert, grayscale. Supports rotation and flip before analysis.
+
+- 🔄 **Live Preview & Download**  
+  View output image with annotated shapes and download it directly.
+
+- ✏️ **Polyline Support (Advanced)**  
+  Use predefined or uploaded polylines (e.g. from `.csv`) as input for geometric shape analysis.
+
+---
+
+## 🧱 Tech Stack
+
+| Component    | Stack                         |
+| ------------ | ----------------------------- |
+| Frontend     | HTML, CSS, JavaScript         |
+| Image Editor | Canvas API, DOM manipulation  |
+| Backend      | FastAPI (Python)              |
+| Image Proc   | OpenCV, NumPy, Pillow         |
+| Shape Logic  | Custom geometric algorithms   |
+| Output       | Annotated image + JSON result |
+
+---
+
+## 🚀 Setup & Installation
+
+### 🔧 Backend (FastAPI)
+
+**Install Python dependencies:**
 
 ```bash
-pip install opencv-python-headless numpy matplotlib
+pip install fastapi uvicorn opencv-python-headless numpy pillow
 ```
 
-## Code Explanation
+**Run the FastAPI server:**
 
-### 1. **Preprocess Image**
-```python
-def preprocess_image(img):
-    # Converts image to grayscale and applies Gaussian blur
-    # Detects edges using the Canny method
-    # Uses morphological operations (dilation, erosion) to clean up the edges
-    # Returns contours found in the processed image
+```bash
+uvicorn main:app --reload
 ```
 
-### 2. **Shape Classification**
-```python
-def classify_shape(contour):
-    # Calculates the perimeter and approximates the contour to a polygon
-    # Determines the shape based on the number of vertices or special properties like circularity
+By default, the server runs at `http://localhost:8000`.
+
+---
+
+### 🌐 Frontend
+
+If you are hosting the source code yourself (and not the hosted website).
+Place your HTML, CSS, and JS files inside a `static/` directory served by FastAPI.
+
+Ensure `previewImg.src` and fetch requests use:
+
+```js
+fetch("http://localhost:8000/analyze", { method: "POST", ... });
 ```
 
-### 3. **Crop and Center Contour**
-```python
-def crop_and_center(contour, binary_img, padding=10):
-    # Crops the image around the detected contour and centers it on a square canvas
+---
+
+## 🧪 Image Analysis API
+
+### POST `/analyze`
+
+**Description**: Analyze uploaded image for shape detection and symmetry.
+
+**Request**: Multipart FormData with `image` field.
+
+**Response**:
+
+```json
+{
+  "image": "<base64_output_image>",
+  "results": [
+    {
+      "shape": "circle",
+      "symmetry": {
+        "horizontal": true,
+        "vertical": true,
+        "diagonal": true,
+        "rotational": true
+      }
+    },
+    ...
+  ]
+}
 ```
 
-### 4. **Rotate and Smooth Image**
-```python
-def rotate_and_smooth(img):
-    # Smooths the image and aligns it by calculating the angle of rotation needed for symmetry
-    # Returns the rotated image
-```
+---
 
-### 5. **Symmetry Calculation**
-```python
-def calculate_symmetry(img):
-    # Calculates horizontal, vertical, diagonal, and rotational symmetry
-    # Returns normalized differences indicating the presence or absence of each type of symmetry
-```
+## 🧠 Core Functions (Python)
 
-### 6. **Analyze Image or Polyline**
-```python
-def analyze_image(input_data, input_type='image'):
-    # Main function to load an image or polyline, preprocess it, classify the shape, calculate symmetry, and output results
-    # Saves and displays the final image with annotated shapes
-```
+### `preprocess_image(img: np.ndarray)`
 
-### 7. **Generate Regular Polygon**
-```python
-def generate_polygon(center, radius, num_sides):
-    # Generates vertices for a regular polygon with the specified number of sides
-```
+- Converts to grayscale, applies Canny edge detection, dilation, erosion.
+- Returns contours + cleaned image.
 
-## Usage
+### `classify_shape(contour)`
 
-### Analyzing an Image
+- Uses contour approximation and circularity to identify shape type.
 
-You can analyze an image by providing its file path to the `analyze_image` function:
+### `rotate_and_smooth(img)`
 
-```python
-analyze_image('path_to_your_image.png', input_type='image')
-```
+- Aligns shape and reduces noise before symmetry check.
 
-### Analyzing a Custom Polyline, You can use the csv code (uploaded in the Problem Description) to convert csv to polylines.
+### `calculate_symmetry(img)`
 
-You can also analyze a custom-defined polyline. For example, to analyze a pentagon:
+- Compares image flips (H, V, Diag, 180°) to compute symmetry differences.
 
-```python
-# Define center and radius
-center = (250, 250)
-radius = 100
-
-# Generate pentagon vertices
-pentagon_polyline = generate_polygon(center, radius, num_sides=5)
-
-# Analyze the polyline
-analyze_image(pentagon_polyline, input_type='polyline')
-```
-
-## Example Output
-
-The code will produce an output image with the shapes detected and labeled. Symmetry information for each shape is printed in the console.
-
-
+---
