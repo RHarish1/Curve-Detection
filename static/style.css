@@ -18,6 +18,7 @@ body {
 
 .container {
   width: 850px;
+  max-width: 100%;
   padding: 30px 35px 35px;
   background: #fff;
   border-radius: 10px;
@@ -51,12 +52,15 @@ body {
   width: 280px;
   border-radius: 5px;
   border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 .editor-panel .title {
   display: block;
   font-size: 16px;
   margin-bottom: 12px;
+  font-weight: 600;
+  color: #333;
 }
 
 .editor-panel .options,
@@ -64,21 +68,22 @@ body {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  gap: 8px;
 }
 
 .editor-panel button {
   outline: none;
   height: 40px;
   font-size: 14px;
-  color: #6C757D;
+  color: #6c757d;
   background: #fff;
   border-radius: 3px;
-  margin-bottom: 8px;
   border: 1px solid #aaa;
-}
-
-.editor-panel .filter button {
-  width: calc(100% / 2 - 4px);
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  flex: 1 1 calc(50% - 4px);
+  min-width: 110px;
 }
 
 .editor-panel button:hover {
@@ -93,6 +98,7 @@ body {
 
 .filter .slider {
   margin-top: 12px;
+  width: 100%;
 }
 
 .filter .slider .filter-info {
@@ -100,28 +106,42 @@ body {
   color: #464646;
   font-size: 14px;
   justify-content: space-between;
+  margin-bottom: 6px;
+  font-weight: 500;
 }
 
 .filter .slider input {
   width: 100%;
   height: 5px;
   accent-color: #8c52ff;
+  cursor: pointer;
 }
 
 .editor-panel .rotate {
   margin-top: 17px;
 }
 
+.editor-panel .rotate .options {
+  gap: 8px;
+}
+
 .editor-panel .rotate button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(100% / 4 - 3px);
+  width: calc(25% - 6px);
+  font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  color: #6c757d;
+  background: #fff;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.rotate .options button:nth-child(3),
-.rotate .options button:nth-child(4) {
-  font-size: 18px;
+.editor-panel .rotate button:hover {
+  background: #f5f5f5;
 }
 
 .rotate .options button:active {
@@ -130,56 +150,135 @@ body {
   border-color: #8c52ff;
 }
 
-.wrapper .preview-img {
+.wrapper .preview-section {
   flex-grow: 1;
   display: flex;
-  overflow: hidden;
+  flex-direction: column;
   margin-left: 20px;
+  max-width: 490px;
+}
+
+.preview-img {
+  width: 450px;      /* fixed width */
+  height: 350px;     /* fixed height */
+  overflow: hidden;
   border-radius: 5px;
+  background: #fafafa;
+  display: flex;
   align-items: center;
   justify-content: center;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  position: relative; /* if needed */
 }
 
 .preview-img img {
-  max-width: 490px;
-  max-height: 335px;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
   object-fit: contain;
+  display: block;
+  user-select: none;
+  pointer-events: none;
 }
 
-.controls button {
+.result {
+  margin-top: 15px;
+  font-family: monospace, monospace;
+  font-size: 13px;
+  color: #333;
+  white-space: pre-wrap;
+  word-break: break-word;
+  min-height: 40px;
+}
+
+.controls {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+}
+
+.controls .reset-filter {
+  flex: 1 1 auto;
+  color: #6c757d;
+  border: 1px solid #6c757d;
+  background: none;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 11px 20px;
+  font-size: 14px;
+  text-transform: uppercase;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  user-select: none;
+}
+
+.controls .reset-filter:hover {
+  background: #6c757d;
+  color: #fff;
+}
+
+.controls .row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex: 2 1 auto;
+}
+
+.controls .row button {
+  flex: 1 1 auto;
   padding: 11px 20px;
   font-size: 14px;
   border-radius: 3px;
   outline: none;
-  color: #fff;
   cursor: pointer;
-  background: none;
-  transition: all 0.3s ease;
-  text-transform: uppercase;
-}
-
-.controls .reset-filter {
-  color: #6C757D;
-  border: 1px solid #6C757D;
-}
-
-.controls .reset-filter:hover {
   color: #fff;
-  background: #6C757D;
+  text-transform: uppercase;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: background-color 0.3s ease;
 }
 
 .controls .choose-img {
-  background: #6C757D;
-  border: 1px solid #6C757D;
+  background: #6c757d;
+  border-color: #6c757d;
+}
+
+.controls .choose-img:hover {
+  background: #5a6268;
+  border-color: #5a6268;
 }
 
 .controls .save-img {
-  margin-left: 5px;
   background: #8c52ff;
-  border: 1px solid #8c52ff;
+  border-color: #8c52ff;
 }
+
+.controls .save-img:hover {
+  background: #7329d6;
+  border-color: #7329d6;
+}
+
+.controls .delete-img {
+  background: #e74c3c;
+  border: 1px solid #e74c3c;
+  padding: 11px 20px;
+  border-radius: 3px;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+  flex: 1 1 auto;
+  transition: background-color 0.3s ease;
+}
+
+.controls .delete-img:hover {
+  background: #c0392b;
+  border-color: #c0392b;
+}
+
+/* Responsive */
 
 @media screen and (max-width: 1024px) {
   .container {
@@ -190,8 +289,9 @@ body {
     width: 45%;
   }
 
-  .wrapper .preview-img {
-    width: 55%;
+  .wrapper .preview-section {
+    max-width: 55%;
+    margin-left: 15px;
   }
 }
 
@@ -206,25 +306,26 @@ body {
 
   .wrapper .editor-panel {
     width: 100%;
+    margin-top: 20px;
   }
 
-  .wrapper .preview-img {
-    width: 100%;
-    margin: 0 0 15px;
+  .wrapper .preview-section {
+    max-width: 100%;
+    margin-left: 0;
   }
 }
 
 @media screen and (max-width: 500px) {
-  .controls button {
+  .controls .row {
+    flex-direction: column;
+  }
+
+  .controls .row button {
     width: 100%;
     margin-bottom: 10px;
   }
 
-  .controls .row {
+  .controls .delete-img {
     width: 100%;
-  }
-
-  .controls .row .save-img {
-    margin-left: 0px;
   }
 }
