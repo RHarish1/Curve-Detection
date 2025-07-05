@@ -5,3 +5,4 @@ opencv-python-headless
 Pillow
 python-multipart
 aiofiles
+jinja2
